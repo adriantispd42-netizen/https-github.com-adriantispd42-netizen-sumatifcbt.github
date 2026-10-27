@@ -1,0 +1,45 @@
+{
+  "entities": {
+    "ExamSession": {
+      "title": "ExamSession",
+      "description": "Lembar sesi ujian CBT matematika murid",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "studentName": { "type": "string" },
+        "studentClass": { "type": "string" },
+        "participantNumber": { "type": "string" },
+        "examCode": { "type": "string" },
+        "startTime": { "type": "string" },
+        "finishTime": { "type": "string" },
+        "durationSecondsUsed": { "type": "number" },
+        "status": { "type": "string" },
+        "statusReason": { "type": "string" },
+        "sessionToken": { "type": "string" }
+      },
+      "required": ["id", "studentName", "studentClass", "participantNumber", "status"]
+    },
+    "ExamSettings": {
+      "title": "ExamSettings",
+      "description": "Konfigurasi pelaksanaan ujian sumatif matematika",
+      "type": "object",
+      "properties": {
+        "durationMinutes": { "type": "number" },
+        "kkmScore": { "type": "number" },
+        "tabSwitchRule": { "type": "string" },
+        "preventRetake": { "type": "boolean" }
+      },
+      "required": ["durationMinutes", "kkmScore", "tabSwitchRule"]
+    }
+  },
+  "firestore": {
+    "/sessions/{sessionId}": {
+      "schema": "ExamSession",
+      "description": "Koleksi lembar pengerjaan dan hasil ujian murid"
+    },
+    "/settings/{settingId}": {
+      "schema": "ExamSettings",
+      "description": "Dokumen pengaturan ujian"
+    }
+  }
+}

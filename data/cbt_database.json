@@ -1,0 +1,11 @@
+{
+  "settings": {
+    "durationMinutes": 60,
+    "examCode": "",
+    "codeRequired": false,
+    "tabSwitchRule": "warning-2",
+    "kkmScore": 75,
+    "preventRetake": true
+  },
+  "sessions": []
+}

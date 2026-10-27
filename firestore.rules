@@ -1,0 +1,34 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Exam settings collection
+    match /settings/{settingId} {
+      allow get, list: if true;
+      allow write: if isValidId(settingId);
+    }
+
+    // Exam sessions collection
+    match /sessions/{sessionId} {
+      allow get: if isValidId(sessionId);
+      allow list: if true;
+      allow create: if isValidId(sessionId)
+        && request.resource.data.id is string
+        && request.resource.data.studentName is string && request.resource.data.studentName.size() <= 100
+        && request.resource.data.studentClass is string && request.resource.data.studentClass.size() <= 50
+        && request.resource.data.participantNumber is string && request.resource.data.participantNumber.size() <= 50;
+      allow update: if isValidId(sessionId)
+        && request.resource.data.studentName is string
+        && request.resource.data.participantNumber is string;
+      allow delete: if isValidId(sessionId);
+    }
+  }
+}
